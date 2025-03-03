@@ -72,7 +72,7 @@ inputSelectMultipleAsync(questions, (results) => {
 
 ```
 
-var { inputSelectMultiple } = require("../index");
+var { inputSelectMultiple } = require("input-shell");
 
 // Example usage:
 const questions = [
