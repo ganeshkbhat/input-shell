@@ -1,9 +1,29 @@
 # input-shell
-python like `input` function using input-shell in nodejs
+python like `input` function using `input-shell` in nodejs
+
+
+---
+
+#### EXPORTED FUNCTIONS: 
+
+The asynchronous callback versions and promise versions of input, inputSelect, inputSelectMultiple:
+
+- `input` : input(text: string)
+- `inputAsync` : inputAsync(text: string, callback: function)
+- `inputSelect` : inputSelect(questionText: string, options: string, type: string)
+- `inputSelectAsync` : inputSelectAsync(questionText : string, options: string, type: string, callback: function)
+- `inputSelectMultipleAsync` : inputSelectMultipleAsync(questions: string, finalCallback: function)
+- `inputSelectMultiple` : inputSelectMultiple(questions: string)
+
+
+---
+
+#### DEMOS: 
+
 
 ```
 
-var { input } = require(input-shell);
+var { input } = require("input-shell");
 
 // Example usage:
 input("Input Text: ")
@@ -22,10 +42,24 @@ input("Input Text: ")
 
 ```
 
-var { inputSelect } = require(input-shell);
+var { inputAsync } = require("input-shell");
+
+inputAsync("Enter some text: ", (err, result) => {
+    if (err) {
+        console.error("Error:", err);
+    } else {
+        console.log("Input:", result.toString());
+    }
+});
+
+```
+
+```
+
+var { inputSelectAsync } = require("input-shell");
 
 // Example usage: checkboxes
-inputSelect(
+inputSelectAsync(
     'Which fruits do you like? (Use space to select, enter to finish)',
     ['Apple', 'Banana', 'Orange', 'Grape'],
     'checkbox',
@@ -38,10 +72,10 @@ inputSelect(
 
 ```
 
-var { inputSelect } = require(input-shell);
+var { inputSelectAsync } = require("input-shell");
 
 // Example usage: radio button
-inputSelect(
+inputSelectAsync(
     'What is your favorite color?',
     ['Red', 'Blue', 'Green', 'Yellow'],
     'radio',
@@ -54,7 +88,35 @@ inputSelect(
 
 ```
 
-var { inputSelectMultipleAsync } = require(input-shell);
+var { inputSelect } = require("input-shell");
+
+// Example usage: checkboxes
+inputSelect(
+    'Select multiple options:',
+    ['Checkbox A', 'Checkbox B', 'Checkbox C', 'Checkbox D'],
+    'checkbox'
+).then(e => console.log(e))
+
+
+```
+
+```
+
+var { inputSelect } = require("input-shell");
+
+// Example usage: radio button
+
+inputSelect(
+    'Choose an option:',
+    ['Option 1', 'Option 2', 'Option 3'],
+    'radio'
+).then(e => console.log(e))
+
+```
+
+```
+
+var { inputSelectMultipleAsync } = require("input-shell");
 
 // Example usage: Multiple questions with Radio, Checkbox, and Text answers
 const questions = [

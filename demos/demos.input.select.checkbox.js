@@ -3,7 +3,7 @@
  * Package: 
  * Author: Ganesh B
  * Description: 
- * Install: npm i input --save
+ * Install: npm i input-shell --save
  * Github: https://github.com/ganeshkbhat/
  * npmjs Link: https://www.npmjs.com/package/
  * File: index.js
@@ -19,7 +19,6 @@
 var { inputSelect } = require("../index");
 
 // Example usage: checkboxes
-
 inputSelect(
     'Select multiple options:',
     ['Checkbox A', 'Checkbox B', 'Checkbox C', 'Checkbox D'],
