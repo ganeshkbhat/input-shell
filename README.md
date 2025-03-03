@@ -3,7 +3,7 @@ python like `input` function using input-shell in nodejs
 
 ```
 
-var { input } = require(input-select);
+var { input } = require(input-shell);
 
 // Example usage:
 input("Input Text: ")
@@ -22,7 +22,7 @@ input("Input Text: ")
 
 ```
 
-var { inputSelect } = require(input-select);
+var { inputSelect } = require(input-shell);
 
 // Example usage: checkboxes
 inputSelect(
@@ -38,7 +38,7 @@ inputSelect(
 
 ```
 
-var { inputSelect } = require(input-select);
+var { inputSelect } = require(input-shell);
 
 // Example usage: radio button
 inputSelect(
@@ -54,7 +54,7 @@ inputSelect(
 
 ```
 
-var { inputSelectMultiple } = require(input-select);
+var { inputSelectMultiple } = require(input-shell);
 
 // Example usage: Multiple questions with Radio, Checkbox, and Text answers
 const questions = [
