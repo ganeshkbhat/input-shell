@@ -16,12 +16,15 @@
 
 'use strict';
 
-var { inputSelect } = require("../index");
+var { inputSelectAsync } = require("../index");
 
 // Example usage: checkboxes
+inputSelectAsync(
+    'Which fruits do you like? (Use space to select, enter to finish)',
+    ['Apple', 'Banana', 'Orange', 'Grape'],
+    'checkbox',
+    (selections) => {
+        console.log('You selected:', selections);
+    }
+);
 
-inputSelect(
-    'Select multiple options:',
-    ['Checkbox A', 'Checkbox B', 'Checkbox C', 'Checkbox D'],
-    'checkbox'
-).then(e => console.log(e))

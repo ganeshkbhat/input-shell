@@ -19,13 +19,10 @@
 var { inputSelect } = require("../index");
 
 // Example usage: radio button
-inputSelect(
-    'What is your favorite color?',
-    ['Red', 'Blue', 'Green', 'Yellow'],
-    'radio',
-    (selection) => {
-        console.log('You selected:', selection);
-    }
-);
 
+inputSelect(
+    'Choose an option:',
+    ['Option 1', 'Option 2', 'Option 3'],
+    'radio'
+).then(e => console.log(e))
 
