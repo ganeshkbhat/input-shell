@@ -16,7 +16,7 @@
 
 'use strict';
 
-var { inputSelectMultiple } = require("../index");
+var { inputSelectMultipleAsync } = require("../index");
 
 // Example usage:
 const questions = [
@@ -26,9 +26,7 @@ const questions = [
   { text: 'What is your age?', type: 'text' },
 ];
 
-inputSelectMultiple(questions).then((results) => {
+inputSelectMultipleAsync(questions, (results) => {
   console.log('Results:', results);
-}).catch((error) => {
-  console.log('Error:', error);
 });
 

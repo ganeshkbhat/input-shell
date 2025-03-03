@@ -88,45 +88,45 @@ function inputSelect(questionText, options, type, callback) {
 
 
 function input(text) {
-    console.log(text);
-    return new Promise((resolve, reject) => {
-        let buffer = Buffer.alloc(0); // Initialize an empty buffer
+  console.log(text);
+  return new Promise((resolve, reject) => {
+    let buffer = Buffer.alloc(0); // Initialize an empty buffer
 
-        process.stdin.on('readable', () => {
-            let chunk;
-            while ((chunk = process.stdin.read()) !== null) {
-                // Find the index of the first newline character
-                const newlineIndex = chunk.indexOf('\n');
+    process.stdin.on('readable', () => {
+      let chunk;
+      while ((chunk = process.stdin.read()) !== null) {
+        // Find the index of the first newline character
+        const newlineIndex = chunk.indexOf('\n');
 
-                if (newlineIndex !== -1) {
-                    // Newline found, extract the line up to the newline
-                    const lineBuffer = Buffer.concat([buffer, chunk.slice(0, newlineIndex)]);
-                    process.stdin.pause(); // Stop reading
-                    resolve(lineBuffer);
-                    return; // Exit the readable event
-                } else {
-                    // No newline, append the chunk to the buffer
-                    buffer = Buffer.concat([buffer, chunk]);
-                }
-            }
-        });
-
-        process.stdin.on('end', () => {
-            if (buffer.length > 0) {
-                resolve(buffer);
-            } else {
-                reject("No input received");
-            }
-        });
-
-        process.stdin.on('error', (err) => {
-            reject(err);
-        });
+        if (newlineIndex !== -1) {
+          // Newline found, extract the line up to the newline
+          const lineBuffer = Buffer.concat([buffer, chunk.slice(0, newlineIndex)]);
+          process.stdin.pause(); // Stop reading
+          resolve(lineBuffer);
+          return; // Exit the readable event
+        } else {
+          // No newline, append the chunk to the buffer
+          buffer = Buffer.concat([buffer, chunk]);
+        }
+      }
     });
+
+    process.stdin.on('end', () => {
+      if (buffer.length > 0) {
+        resolve(buffer);
+      } else {
+        reject("No input received");
+      }
+    });
+
+    process.stdin.on('error', (err) => {
+      reject(err);
+    });
+  });
 }
 
 
-function inputSelectMultiple(questions, finalCallback) {
+function inputSelectMultipleAsync(questions, finalCallback) {
   let results = [];
   let questionIndex = 0;
 
@@ -235,6 +235,107 @@ function inputSelectMultiple(questions, finalCallback) {
   askQuestion();
 }
 
+function inputSelectMultiple(questions) {
+  return new Promise((resolve, reject) => {
+    let results = [];
+    let questionIndex = 0;
 
-module.exports = { input, inputSelect, inputSelectMultiple }
+    function askQuestion() {
+      if (questionIndex >= questions.length) {
+        resolve(results);
+        return;
+      }
+
+      const question = questions[questionIndex];
+      const { text, type, options } = question;
+
+      if (type === 'text') {
+        const rl = readline.createInterface({
+          input: process.stdin,
+          output: process.stdout,
+        });
+
+        rl.question(`${text} `, (answer) => {
+          results.push({ text: text, answer: answer });
+          rl.close();
+          questionIndex++;
+          askQuestion();
+        });
+      } else if (type === 'radio' || type === 'checkbox') {
+        const rl = readline.createInterface({
+          input: process.stdin,
+          output: process.stdout,
+          terminal: true,
+        });
+
+        let selectedIndex = 0;
+        let selectedOptionsArray = [];
+
+        function displayOptions() {
+          console.clear();
+          console.log(text);
+          options.forEach((option, index) => {
+            if (type === 'radio') {
+              if (index === selectedIndex) {
+                console.log(`> ${option}`);
+              } else {
+                console.log(`  ${option}`);
+              }
+            } else if (type === 'checkbox') {
+              let selected = selectedOptionsArray.includes(index) ? '[x]' : '[ ]';
+              if (index === selectedIndex) {
+                console.log(`> ${selected} ${option}`);
+              } else {
+                console.log(`  ${selected} ${option}`);
+              }
+            }
+          });
+        }
+
+        displayOptions();
+
+        readline.emitKeypressEvents(process.stdin);
+        process.stdin.setRawMode(true);
+
+        process.stdin.on('keypress', (str, key) => {
+          if (key.name === 'up') {
+            selectedIndex = Math.max(0, selectedIndex - 1);
+            displayOptions();
+          } else if (key.name === 'down') {
+            selectedIndex = Math.min(options.length - 1, selectedIndex + 1);
+            displayOptions();
+          } else if (key.name === 'return') {
+            process.stdin.setRawMode(false);
+            process.stdin.pause();
+            rl.close();
+            let answer;
+            if (type === 'radio') {
+              answer = options[selectedIndex];
+            } else if (type === 'checkbox') {
+              answer = selectedOptionsArray.map((index) => options[index]);
+            }
+            results.push({ text: text, answer: answer });
+            questionIndex++;
+            askQuestion();
+          } else if (key.ctrl && key.name === 'c') {
+            process.exit();
+          } else if (type === 'checkbox' && key.name === 'space') {
+            if (selectedOptionsArray.includes(selectedIndex)) {
+              selectedOptionsArray = selectedOptionsArray.filter(
+                (item) => item !== selectedIndex
+              );
+            } else {
+              selectedOptionsArray.push(selectedIndex);
+            }
+            displayOptions();
+          }
+        });
+      }
+    }
+
+    askQuestion();
+  });
+}
+
+module.exports = { input, inputSelect, inputSelectMultipleAsync, inputSelectMultiple }
 
