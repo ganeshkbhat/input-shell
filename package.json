@@ -27,6 +27,5 @@
   "author": "Ganesh Bhat <cgijs@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "input": "^1.0.1"
   }
 }
