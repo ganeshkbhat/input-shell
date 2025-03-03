@@ -1,6 +1,6 @@
 {
   "name": "input-shell",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "python like input function using input-shell in nodejs",
   "main": "index.js",
   "directories": {
