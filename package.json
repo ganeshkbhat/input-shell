@@ -1,0 +1,32 @@
+{
+  "name": "input-shell",
+  "version": "1.0.0",
+  "description": "python like input function using input-shell in nodejs",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha --reporter spec --recursive --timeout 60000"
+  },
+  "devDependencies": {
+    "chai": "^5.1.2",
+    "mocha": "^11.1.0",
+    "package1": "^0.0.0",
+    "package2": "^1.0.0",
+    "sinon": "^19.0.2"
+  },
+  "keywords": [
+    "python input",
+    "shell",
+    "shell input",
+    "process input",
+    "process buffer input",
+    "process text input"
+  ],
+  "author": "Ganesh Bhat <cgijs@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "input": "^1.0.1"
+  }
+}
