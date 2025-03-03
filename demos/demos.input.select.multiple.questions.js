@@ -26,9 +26,29 @@ const questions = [
   { text: 'What is your age?', type: 'text' },
 ];
 
+// const questions = [
+//   { type: 'text', text: 'What is your name?' },
+//   { type: 'checkbox', text: 'Select your favorite colors:', options: ['Red', 'Green', 'Blue', 'Yellow'] },
+//   { type: 'radio', text: 'Choose your operating system:', options: ['Windows', 'macOS', 'Linux'] },
+//   { type: 'text', text: 'Enter your city?' },
+// ];
+
 inputSelectMultiple(questions).then((results) => {
   console.log('Results:', results);
 }).catch((error) => {
   console.log('Error:', error);
 });
 
+// inputSelectMultiple(questions)
+//     .then((results) => {
+//         console.clear();
+//         console.log('Answers:');
+//         results.forEach((result) => {
+//             console.log(`${result.question}: ${Array.isArray(result.answer) ? result.answer.join(', ') : result.answer}`);
+//         });
+//         process.exit();
+//     })
+//     .catch((error) => {
+//         console.error('Error:', error);
+//         process.exit(1);
+//     });

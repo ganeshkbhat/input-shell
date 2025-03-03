@@ -87,73 +87,73 @@ function inputSelectAsync(questionText, options, type, callback) {
 }
 
 function inputSelect(questionText, options, type) {
-    return new Promise((resolve) => {
-        const rl = readline.createInterface({
-            input: process.stdin,
-            output: process.stdout,
-            terminal: true,
-        });
-
-        let selectedIndex = 0;
-        let selectedOptionsArray = [];
-
-        function displayOptions() {
-            console.clear();
-            console.log(questionText);
-            options.forEach((option, index) => {
-                if (type === 'radio') {
-                    if (index === selectedIndex) {
-                        console.log(`> ${option}`);
-                    } else {
-                        console.log(`  ${option}`);
-                    }
-                } else if (type === 'checkbox') {
-                    let selected = selectedOptionsArray.includes(index) ? '[x]' : '[ ]';
-                    if (index === selectedIndex) {
-                        console.log(`> ${selected} ${option}`);
-                    } else {
-                        console.log(`  ${selected} ${option}`);
-                    }
-                }
-            });
-        }
-
-        displayOptions();
-
-        readline.emitKeypressEvents(process.stdin);
-        process.stdin.setRawMode(true);
-
-        process.stdin.on('keypress', (str, key) => {
-            if (key.name === 'up') {
-                selectedIndex = Math.max(0, selectedIndex - 1);
-                displayOptions();
-            } else if (key.name === 'down') {
-                selectedIndex = Math.min(options.length - 1, selectedIndex + 1);
-                displayOptions();
-            } else if (key.name === 'return') {
-                process.stdin.setRawMode(false);
-                process.stdin.pause();
-                rl.close();
-                if (type === 'radio') {
-                    resolve(options[selectedIndex]);
-                } else if (type === 'checkbox') {
-                    const finalSelections = selectedOptionsArray.map((index) => options[index]);
-                    resolve(finalSelections);
-                }
-            } else if (key.ctrl && key.name === 'c') {
-                process.exit();
-            } else if (type === 'checkbox' && key.name === 'space') {
-                if (selectedOptionsArray.includes(selectedIndex)) {
-                    selectedOptionsArray = selectedOptionsArray.filter(
-                        (item) => item !== selectedIndex
-                    );
-                } else {
-                    selectedOptionsArray.push(selectedIndex);
-                }
-                displayOptions();
-            }
-        });
+  return new Promise((resolve) => {
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+      terminal: true,
     });
+
+    let selectedIndex = 0;
+    let selectedOptionsArray = [];
+
+    function displayOptions() {
+      console.clear();
+      console.log(questionText);
+      options.forEach((option, index) => {
+        if (type === 'radio') {
+          if (index === selectedIndex) {
+            console.log(`> ${option}`);
+          } else {
+            console.log(`  ${option}`);
+          }
+        } else if (type === 'checkbox') {
+          let selected = selectedOptionsArray.includes(index) ? '[x]' : '[ ]';
+          if (index === selectedIndex) {
+            console.log(`> ${selected} ${option}`);
+          } else {
+            console.log(`  ${selected} ${option}`);
+          }
+        }
+      });
+    }
+
+    displayOptions();
+
+    readline.emitKeypressEvents(process.stdin);
+    process.stdin.setRawMode(true);
+
+    process.stdin.on('keypress', (str, key) => {
+      if (key.name === 'up') {
+        selectedIndex = Math.max(0, selectedIndex - 1);
+        displayOptions();
+      } else if (key.name === 'down') {
+        selectedIndex = Math.min(options.length - 1, selectedIndex + 1);
+        displayOptions();
+      } else if (key.name === 'return') {
+        process.stdin.setRawMode(false);
+        process.stdin.pause();
+        rl.close();
+        if (type === 'radio') {
+          resolve(options[selectedIndex]);
+        } else if (type === 'checkbox') {
+          const finalSelections = selectedOptionsArray.map((index) => options[index]);
+          resolve(finalSelections);
+        }
+      } else if (key.ctrl && key.name === 'c') {
+        process.exit();
+      } else if (type === 'checkbox' && key.name === 'space') {
+        if (selectedOptionsArray.includes(selectedIndex)) {
+          selectedOptionsArray = selectedOptionsArray.filter(
+            (item) => item !== selectedIndex
+          );
+        } else {
+          selectedOptionsArray.push(selectedIndex);
+        }
+        displayOptions();
+      }
+    });
+  });
 }
 
 function input(text) {
@@ -450,6 +450,134 @@ function inputSelectMultiple(questions) {
     askQuestion();
   });
 }
+
+
+function inputSelectMultiple(questions) {
+
+  async function recursiveQuestion(questions, answers = [], currentIndex = 0) {
+    if (currentIndex >= questions.length) {
+      return answers;
+    }
+
+    const currentQuestion = questions[currentIndex];
+
+    for (let i = 0; i < answers.length; i++) {
+      console.log(`${questions[i].text}: ${Array.isArray(answers[i].answer) ? answers[i].answer.join(', ') : answers[i].answer}`);
+    }
+
+    console.log(`${currentQuestion.text}`);
+
+    let answer;
+
+    if (currentQuestion.type === 'text') {
+      answer = await questionAsync('> ');
+    } else if (currentQuestion.type === 'checkbox') {
+      answer = await checkboxMenu(currentQuestion.options, answers);
+    } else if (currentQuestion.type === 'radio') {
+      answer = await radioMenu(currentQuestion.options, answers);
+    } else {
+      throw new Error(`Unknown question type: ${currentQuestion.type}`);
+    }
+
+    answers.push({ question: currentQuestion.text, answer: answer });
+    return recursiveQuestion(questions, answers, currentIndex + 1);
+  }
+
+  function questionAsync(prompt) {
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+
+    return new Promise((resolve) => {
+      rl.question(prompt, (answer) => {
+        rl.close();
+        resolve(answer);
+      });
+    });
+  }
+
+  async function checkboxMenu(options, previousAnswers) {
+    const selected = new Array(options.length).fill(false);
+    let currentIndex = 0;
+
+    while (true) {
+      console.clear();
+      for (let i = 0; i < previousAnswers.length; i++) {
+        console.log(`${previousAnswers[i].text}: ${Array.isArray(previousAnswers[i].answer) ? previousAnswers[i].answer.join(', ') : previousAnswers[i].answer}`);
+      }
+
+      console.log("Select with space, confirm with enter, navigate with arrows:");
+      for (let i = 0; i < options.length; i++) {
+        const prefix = i === currentIndex ? '>' : ' ';
+        const check = selected[i] ? '[x]' : '[ ]';
+        console.log(`${prefix} ${check} ${options[i]}`);
+      }
+
+      const key = await readKey();
+
+      if (key === '\r') {
+        return options.filter((_, i) => selected[i]);
+      } else if (key === '\u001b[A') {
+        currentIndex = (currentIndex - 1 + options.length) % options.length;
+      } else if (key === '\u001b[B') {
+        currentIndex = (currentIndex + 1) % options.length;
+      } else if (key === ' ') {
+        selected[currentIndex] = !selected[currentIndex];
+      }
+    }
+  }
+
+  async function radioMenu(options, previousAnswers) {
+    let currentIndex = 0;
+
+    while (true) {
+      console.clear();
+      for (let i = 0; i < previousAnswers.length; i++) {
+        console.log(`${previousAnswers[i].text}: ${Array.isArray(previousAnswers[i].answer) ? previousAnswers[i].answer.join(', ') : previousAnswers[i].answer}`);
+      }
+      console.log("Select with enter, navigate with arrows:");
+
+      for (let i = 0; i < options.length; i++) {
+        const prefix = i === currentIndex ? '>' : ' ';
+        const radio = i === currentIndex ? '(o)' : '( )';
+        console.log(`${prefix} ${radio} ${options[i]}`);
+      }
+
+      const key = await readKey();
+
+      if (key === '\r') {
+        return options[currentIndex];
+      } else if (key === '\u001b[A') {
+        currentIndex = (currentIndex - 1 + options.length) % options.length;
+      } else if (key === '\u001b[B') {
+        currentIndex = (currentIndex + 1) % options.length;
+      }
+    }
+  }
+
+  function readKey() {
+    return new Promise((resolve) => {
+      process.stdin.setRawMode(true);
+      process.stdin.resume();
+      process.stdin.once('data', (data) => {
+        process.stdin.setRawMode(false);
+        process.stdin.pause();
+        resolve(data.toString());
+      });
+    });
+  }
+
+  return new Promise(async (resolve, reject) => {
+    try {
+      const results = await recursiveQuestion(questions);
+      resolve(results);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
 
 module.exports = { input, inputAsync, inputSelect, inputSelectAsync, inputSelectMultipleAsync, inputSelectMultiple }
 
