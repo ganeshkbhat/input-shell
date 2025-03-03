@@ -56,7 +56,7 @@ inputSelect(
 
 var { inputSelectMultiple } = require(input-select);
 
-// Example usage:
+// Example usage: Multiple questions with Radio, Checkbox, and Text answers
 const questions = [
   { text: 'What is your name?', type: 'text' },
   { text: 'What is your favorite color?', type: 'radio', options: ['Red', 'Blue', 'Green'] },
