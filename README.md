@@ -71,7 +71,7 @@ inputSelectMultiple(questions, (results) => {
 ```
 
 
-#### TODO
+#### TESTS
 
 * no tests written: use on your risk. But it works and should work for all use cases. 
 * the function written is just a sugar for process.stdin and/or its error.
