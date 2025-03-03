@@ -72,9 +72,9 @@ inputSelectMultipleAsync(questions, (results) => {
 
 ```
 
-var { inputSelectMultipleAsync } = require(input-shell);
+var { inputSelectMultiple } = require("../index");
 
-// Example usage: Multiple questions with Radio, Checkbox, and Text answers
+// Example usage:
 const questions = [
   { text: 'What is your name?', type: 'text' },
   { text: 'What is your favorite color?', type: 'radio', options: ['Red', 'Blue', 'Green'] },
@@ -82,10 +82,10 @@ const questions = [
   { text: 'What is your age?', type: 'text' },
 ];
 
-inputSelectMultipleAsync(questions).then((results) => {
+inputSelectMultiple(questions).then((results) => {
   console.log('Results:', results);
 }).catch((error) => {
-  console.log('Errors:', errors);
+  console.log('Error:', error);
 });
 
 ```
