@@ -12,8 +12,6 @@
   "devDependencies": {
     "chai": "^5.1.2",
     "mocha": "^11.1.0",
-    "package1": "^0.0.0",
-    "package2": "^1.0.0",
     "sinon": "^19.0.2"
   },
   "keywords": [
