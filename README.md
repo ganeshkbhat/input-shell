@@ -15,6 +15,7 @@ The asynchronous callback versions and promise versions of `input`, `inputSelect
 - `inputSelectMultipleAsync` : inputSelectMultipleAsync(questions: string, finalCallback: function)
 - `inputSelectMultiple` : inputSelectMultiple(questions: string)
 
+![](https://github.com/ganeshkbhat/input-shell/blob/cc1175a29f8d854027319eb448dde1504a34e177/input-shell-demo-ezgif.com-video-to-gif-converter.gif)
 
 
 ---
