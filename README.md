@@ -104,7 +104,6 @@ inputSelect(
 var { inputSelect } = require("input-shell");
 
 // Example usage: radio button
-
 inputSelect(
     'Choose an option:',
     ['Option 1', 'Option 2', 'Option 3'],
@@ -153,7 +152,6 @@ const questions = [
   { text: 'Which fruits do you like?', type: 'checkbox', options: ['Apple', 'Banana', 'Orange', 'Grape'] },
   { text: 'What is your age?', type: 'text' },
 ];
-
 
 inputSelectMultiple(questions).then((results) => {
   console.log('Results:', results);
