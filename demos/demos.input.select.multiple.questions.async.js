@@ -26,7 +26,17 @@ const questions = [
   { text: 'What is your age?', type: 'text' },
 ];
 
-inputSelectMultipleAsync(questions, (results) => {
-  console.log('Results:', results);
+inputSelectMultipleAsync(questions, (err, results) => {
+  if (err) {
+    console.error('Error:', err);
+    process.exit(1);
+  } else {
+    console.clear();
+    console.log('Answers:');
+    results.forEach((result) => {
+      console.log(`${result.question}: ${Array.isArray(result.answer) ? result.answer.join(', ') : result.answer}`);
+    });
+    console.log("results: ", results);
+    process.exit();
+  }
 });
-
