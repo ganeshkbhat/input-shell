@@ -6,7 +6,7 @@ python like `input` function using `input-shell` in nodejs
 
 #### EXPORTED FUNCTIONS: 
 
-The asynchronous callback versions and promise versions of input, inputSelect, inputSelectMultiple:
+The asynchronous callback versions and promise versions of `input`, `inputSelect`, `inputSelectMultiple`:
 
 - `input` : input(text: string)
 - `inputAsync` : inputAsync(text: string, callback: function)
