@@ -20,6 +20,7 @@ The asynchronous callback versions and promise versions of input, inputSelect, i
 
 #### DEMOS: 
 
+##### 1. input
 
 ```
 
@@ -39,6 +40,7 @@ input("Input Text: ")
 
 ```
 
+##### 2. inputAsync
 
 ```
 
@@ -53,6 +55,8 @@ inputAsync("Enter some text: ", (err, result) => {
 });
 
 ```
+
+##### 3. inputSelectAsync checkbox
 
 ```
 
@@ -70,6 +74,8 @@ inputSelectAsync(
 
 ```
 
+##### 4. inputSelectAsync radio
+
 ```
 
 var { inputSelectAsync } = require("input-shell");
@@ -86,6 +92,8 @@ inputSelectAsync(
 
 ```
 
+##### 5. inputSelect checkbox
+
 ```
 
 var { inputSelect } = require("input-shell");
@@ -99,6 +107,8 @@ inputSelect(
 
 ```
 
+##### 6. inputSelect radio
+
 ```
 
 var { inputSelect } = require("input-shell");
@@ -111,6 +121,8 @@ inputSelect(
 ).then(e => console.log(e))
 
 ```
+
+##### 7. inputSelectMultipleAsync
 
 ```
 
@@ -140,6 +152,8 @@ inputSelectMultipleAsync(questions, (err, results) => {
 });
 
 ```
+
+##### 8. inputSelectMultipleAsync
 
 ```
 
