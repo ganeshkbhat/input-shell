@@ -97,7 +97,6 @@ inputSelect(
     'checkbox'
 ).then(e => console.log(e))
 
-
 ```
 
 ```
@@ -125,7 +124,6 @@ const questions = [
   { text: 'Which fruits do you like?', type: 'checkbox', options: ['Apple', 'Banana', 'Orange', 'Grape'] },
   { text: 'What is your age?', type: 'text' },
 ];
-
 
 inputSelectMultipleAsync(questions, (err, results) => {
   if (err) {
@@ -162,7 +160,6 @@ inputSelectMultiple(questions).then((results) => {
 }).catch((error) => {
   console.log('Error:', error);
 });
-
 
 ```
 
