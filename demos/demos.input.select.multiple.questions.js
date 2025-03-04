@@ -23,15 +23,10 @@ const questions = [
   { text: 'What is your name?', type: 'text' },
   { text: 'What is your favorite color?', type: 'radio', options: ['Red', 'Blue', 'Green'] },
   { text: 'Which fruits do you like?', type: 'checkbox', options: ['Apple', 'Banana', 'Orange', 'Grape'] },
+  { type: 'radio', text: 'Choose your operating system:', options: ['Windows', 'macOS', 'Linux'] },
   { text: 'What is your age?', type: 'text' },
+  { type: 'text', text: 'Enter your city?' },
 ];
-
-// const questions = [
-//   { type: 'text', text: 'What is your name?' },
-//   { type: 'checkbox', text: 'Select your favorite colors:', options: ['Red', 'Green', 'Blue', 'Yellow'] },
-//   { type: 'radio', text: 'Choose your operating system:', options: ['Windows', 'macOS', 'Linux'] },
-//   { type: 'text', text: 'Enter your city?' },
-// ];
 
 inputSelectMultiple(questions).then((results) => {
   console.log('Results:', results);
@@ -39,6 +34,7 @@ inputSelectMultiple(questions).then((results) => {
   console.log('Error:', error);
 });
 
+// // USAGE Two: 
 // inputSelectMultiple(questions)
 //     .then((results) => {
 //         console.clear();
@@ -52,3 +48,8 @@ inputSelectMultiple(questions).then((results) => {
 //         console.error('Error:', error);
 //         process.exit(1);
 //     });
+
+
+
+
+
