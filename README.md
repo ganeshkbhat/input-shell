@@ -16,6 +16,7 @@ The asynchronous callback versions and promise versions of `input`, `inputSelect
 - `inputSelectMultiple` : inputSelectMultiple(questions: string)
 
 
+
 ---
 
 #### DEMOS: 
