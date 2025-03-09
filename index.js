@@ -590,6 +590,7 @@ function inputSelectMultiple(questions) {
   });
 }
 
+
 function inputSelectMultipleAsync(questions, callback) {
   recursiveFns().recursiveQuestion(questions)
     .then((results) => {
@@ -599,7 +600,6 @@ function inputSelectMultipleAsync(questions, callback) {
       callback(error, null); // Pass error, null for results
     });
 }
-
 
 
 function shellQuestions() {
